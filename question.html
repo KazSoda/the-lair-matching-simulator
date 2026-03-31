@@ -134,6 +134,20 @@ var charsImages = {
     'Loïc': 'images/loic.png'
 };
 
+var charsText = {
+    'Valentin': '"Tu disais "BIENVENUE DANS MON REPAIRE !"... Il est temps pour moi de te dire "BIENVENUE DANS MON COEUR"!"',
+    'Alan': '"Let\'s love each other at FULL POWER!"',
+    'Hugo': '"Comme tes projets, notre relation n\'aura pas de fin 💞"',
+    'Elise': '"Je sens de la \*chemistry\* entre nous..."',
+    'Emma': '"Je ne mesure peut-être que 8 fois ta taille, mais promis je serais à la hauteur."',
+    'Côme': '"Je sais que je ne pourrais jamais te surpasser, mais peut-être peux-tu me laisser la chance d\'essayer de t\'égaler ? >///<"',
+    'Loup-Enzo': '"Ensemble nous serons les plus rhum-antiques"',
+    'Inès': '"Comme une verrue qui s\'attache à un pied, je ne t\'abandonnerai jamais ❤️"',
+    'Brice': '"Soyons Bourret ensemble 💖"',
+    'Alexandre': '"Tu es le feur de mon quoi"',
+    'Loïc': '"Tu es l\'admin de mon coeur <3"'
+};
+
 let currentQuestion = 1;
 let selectedValue = null;
 const answers = { 'fierté': [], 'sadisme': [], 'freakiness': [] };
@@ -180,11 +194,12 @@ function showResults() {
                 <h2>💖 Ton match est 💖</h2>
                 <img src="${charsImages['Inès']}" alt="Inès" class="result-image">
                 <h1>Inès</h1>
+                <p>Envie d'envoyer un petit message à ton nouveau partenaire...? Voici une suggestion :<br/><br/>${charsText['Inès']}</p>
             </div>
         `;
 
         // Jouer la musique pour Inès
-        const audio = new Audio('Alan.mp3');
+        const audio = new Audio('Ines.mp3');
         audio.play();
         return;
     }
@@ -221,6 +236,7 @@ function showResults() {
             <h2>💖 Ton match est 💖</h2>
             <img src="${charsImages[winner]}" alt="${winner}" class="result-image">
             <h1>${winner}</h1>
+            <p>Envie d'envoyer un petit message à ton nouveau partenaire...? Voici une suggestion :<br/><br/>${charsText[winner]}</p>
         </div>
     `;
 

@@ -60,17 +60,17 @@ var charsPool2 = {
 }
 
 var charsPointsMapping = {
-    'Valentin': { 'fierté': { order: 1, weight: 4 }, 'sadisme': { order: 2, weight: 3 }, 'freakiness': { order: 3, weight: 3 } },
-    'Alan': { 'fierté': { order: 1, weight: 3 }, 'sadisme': { order: 3, weight: 1 }, 'freakiness': { order: 2, weight: 3 } },
-    'Hugo': { 'fierté': { order: 1, weight: 4 }, 'sadisme': { order: 3, weight: 3 }, 'freakiness': { order: 2, weight: 4 } },
+    'Valentin': { 'fierté': { order: 1, weight: 4 }, 'sadisme': { order: 2, weight: 2 }, 'freakiness': { order: 3, weight: 1 } },
+    'Alan': { 'fierté': { order: 2, weight: 3 }, 'sadisme': { order: 3, weight: 1 }, 'freakiness': { order: 1, weight: 3 } },
+    'Hugo': { 'fierté': { order: 2, weight: 3 }, 'sadisme': { order: 3, weight: 2 }, 'freakiness': { order: 1, weight: 4 } },
     'Elise': { 'fierté': { order: 3, weight: 1 }, 'sadisme': { order: 1, weight: 5 }, 'freakiness': { order: 2, weight: 4 } },
-    'Emma': { 'fierté': { order: 2, weight: 2 }, 'sadisme': { order: 3, weight: 3 }, 'freakiness': { order: 1, weight: 4 } },
+    'Emma': { 'fierté': { order: 3, weight: 2 }, 'sadisme': { order: 1, weight: 4 }, 'freakiness': { order: 2, weight: 3 } },
     'Côme': { 'fierté': { order: 1, weight: 5 }, 'sadisme': { order: 3, weight: 1 }, 'freakiness': { order: 2, weight: 3 } },
-    'Loup-Enzo': { 'fierté': { order: 1, weight: 5 }, 'sadisme': { order: 3, weight: 2 }, 'freakiness': { order: 2, weight: 5 } },
+    'Loup-Enzo': { 'fierté': { order: 3, weight: 1 }, 'sadisme': { order: 1, weight: 4 }, 'freakiness': { order: 2, weight: 3 } },
     'Inès': { 'fierté': { order: 2, weight: 3 }, 'sadisme': { order: 3, weight: 1 }, 'freakiness': { order: 1, weight: 5 } },
     'Brice': { 'fierté': { order: 3, weight: 1 }, 'sadisme': { order: 2, weight: 3 }, 'freakiness': { order: 1, weight: 4 } },
     'Alexandre': { 'fierté': { order: 1, weight: 4 }, 'sadisme': { order: 3, weight: 1 }, 'freakiness': { order: 2, weight: 3 } },
-    'Loic': { 'fierté': { order: 1, weight: 4 }, 'sadisme': { order: 2, weight: 4 }, 'freakiness': { order: 3, weight: 1 } }
+    'Loïc': { 'fierté': { order: 1, weight: 3 }, 'sadisme': { order: 2, weight: 4 }, 'freakiness': { order: 3, weight: 1 } }
 }
 
 var questions = {
@@ -224,8 +224,10 @@ function showResults() {
 
             const char = data[theme];
             if (char.order === index + 1) charScores[name] += 1;
-            if (char.weight === userValue) charScores[name] += 2;
+            if (char.weight === userValue) charScores[name] += 3;
             else if (Math.abs(char.weight - userValue) === 1) charScores[name] += 1;
+            else charScores[name] -= 1;
+            charScores[name] += Math.random() * 0.2;
         });
     });
 

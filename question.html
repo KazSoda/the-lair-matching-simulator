@@ -15,9 +15,7 @@
 
     <div class="question-card">
 
-        <p class="question-number">Question n°1 💌</p>
-
-        <img src="https://via.placeholder.com/300x180" alt="question image" class="question-image">
+        <p class="question-number">Question n°1</p>
 
         <p class="question-text">
             Mon partenaire est la personne la plus importante du monde
@@ -51,13 +49,14 @@ var charsPool1 = {
     4: 'Elise',
     5: 'Emma',
     6: 'Côme',
-    7: 'Loup-Enzo'
+    7: 'Loup-Enzo',
+    8: 'Loïc'
 }
 
 var charsPool2 = {
-    8: 'Inès',
-    9: 'Brice',
-    10: 'Alexandre'
+    9: 'Inès',
+    10: 'Brice',
+    11: 'Alexandre'
 }
 
 var charsPointsMapping = {
@@ -70,7 +69,8 @@ var charsPointsMapping = {
     'Loup-Enzo': { 'fierté': { order: 1, weight: 5 }, 'sadisme': { order: 3, weight: 2 }, 'freakiness': { order: 2, weight: 5 } },
     'Inès': { 'fierté': { order: 2, weight: 3 }, 'sadisme': { order: 3, weight: 1 }, 'freakiness': { order: 1, weight: 5 } },
     'Brice': { 'fierté': { order: 3, weight: 1 }, 'sadisme': { order: 2, weight: 3 }, 'freakiness': { order: 1, weight: 4 } },
-    'Alexandre': { 'fierté': { order: 1, weight: 4 }, 'sadisme': { order: 3, weight: 1 }, 'freakiness': { order: 2, weight: 3 } }
+    'Alexandre': { 'fierté': { order: 1, weight: 4 }, 'sadisme': { order: 3, weight: 1 }, 'freakiness': { order: 2, weight: 3 } },
+    'Loic': { 'fierté': { order: 1, weight: 4 }, 'sadisme': { order: 2, weight: 4 }, 'freakiness': { order: 3, weight: 1 } }
 }
 
 var questions = {
@@ -84,8 +84,16 @@ var questions = {
     8: { text: "Mon partenaire et moi sommes prêts à faire voeu de chasteté", isNegative: true },
     9: { text: "Moi et mon partenaire devons avoir une relation saine et honnête", isNegative: true },
     10: { text: "Je suis plutôt d'accord avec l'affirmation 'To be cringe is to be free'", isNegative: true },
-    11: { text: "Je suis plutôt d'accord avec l'affirmation : C'est pas parce qu'il y a un gardien qu'on ne peut pas tirer.", isNegative: false },
-    12: { text: "Mon partenaire aime les pieds", isNegative: false },
+    11: { text: "Mon partenaire devrait occuper ou viser des positions professionneles prestigieuses.", isNegative: false},
+    12: { text: "Je suis plutôt d'accord avec l'affirmation 'Mieux vaut être seul que mal accompagné'.", isNegative: true},
+    13: { text: "Ça ne me dérange pas si mon partenaire passe beaucoup de temps dans le #salon-mature.", isNegative: false},
+    14: { text: "Mon partenaire peut dicter comment je dois vivre ma vie.", isNegative: false},
+    15: { text: "Mon partenaire devrait avoir les droits admin.", isNegative: false},
+    16: { text: "Mon partenaire peut garder autant de secrets qu'il/elle le souhaite.", isNegative: false},
+    17: { text: "Quand je vois comment Emma, Elise et Inès traitent Alan, je suis envieux.", isNegative: false},
+    18: { text: "Le mot 'radiateur' évoque de bons souvenirs.", isNegative: false},
+    19: { text: "Je suis plutôt d'accord avec l'affirmation : C'est pas parce qu'il y a un gardien qu'on ne peut pas tirer.", isNegative: false },
+    20: { text: "Mon partenaire aime les pieds", isNegative: false },
 
 };
 
@@ -100,14 +108,36 @@ var mappingQuestionsAndPoints = {
     8: ['freakiness'],
     9: ['sadisme'],
     10: ['fierté'],
-    11: [],
-    12: []
+    11: ['fierté'],
+    12: ['sadisme','freakiness'],
+    13: ['freakiness'],
+    14: ['sadisme'],
+    15: ['fierté'],
+    16: ['fierté'],
+    17: ['sadisme'],    
+    18: ['sadisme'],    
+    19: [],
+    20: []
 }
+
+var charsImages = {
+    'Valentin': 'images/valentin.png',
+    'Alan': 'images/alan.png',
+    'Hugo': 'images/hugo.png',
+    'Elise': 'images/elise.png',
+    'Emma': 'images/emma.png',
+    'Côme': 'images/come.png',
+    'Loup-Enzo': 'images/loup-enzo.png',
+    'Inès': 'images/ines.png',
+    'Brice': 'images/brice.png',
+    'Alexandre': 'images/alexandre.png',
+    'Loïc': 'images/loic.png'
+};
 
 let currentQuestion = 1;
 let selectedValue = null;
 const answers = { 'fierté': [], 'sadisme': [], 'freakiness': [] };
-let specialAnswers = { q11: null, q12: null };
+let specialAnswers = { q19: null, q20: null };
 
 function select(el, value) {
     document.querySelectorAll('.circle').forEach(c => c.classList.remove('selected'));
@@ -120,8 +150,8 @@ function validate() {
 
     const valueToStore = questions[currentQuestion].isNegative ? 6 - selectedValue : selectedValue;
 
-    if (currentQuestion === 11) specialAnswers.q11 = valueToStore;
-    if (currentQuestion === 12) specialAnswers.q12 = valueToStore;
+    if (currentQuestion === 19) specialAnswers.q19 = valueToStore;
+    if (currentQuestion === 20) specialAnswers.q20 = valueToStore;
 
     const themes = mappingQuestionsAndPoints[currentQuestion];
     themes.forEach(theme => { if (answers[theme]) answers[theme].push(valueToStore); });
@@ -144,16 +174,17 @@ function customRound(value) { return (value - Math.floor(value) >= 0.5) ? Math.c
 function showResults() {
 
     // Q6 override → Inès seulement si réponse = 5
-    if (specialAnswers.q12 === 5) {
+    if (specialAnswers.q19 === 5) {
         document.querySelector(".container").innerHTML = `
             <div class="question-card">
                 <h2>💖 Ton match est 💖</h2>
-                <h1>Inès 😏</h1>
-                <p>Analyse ultra-scientifique terminée (Q6 override)</p>
+                <img src="${charsImages['Inès']}" alt="Inès" class="result-image">
+                <h1>Inès</h1>
             </div>
         `;
+
         // Jouer la musique pour Inès
-        const audio = new Audio('Inès.mp3');
+        const audio = new Audio('Alan.mp3');
         audio.play();
         return;
     }
@@ -173,7 +204,7 @@ function showResults() {
             if (!data[theme]) return;
 
             // Pool 2 lock → Q5 < 3 ignore
-            if (Object.values(charsPool2).includes(name) && (specialAnswers.q11 < 3)) return;
+            if (Object.values(charsPool2).includes(name) && (specialAnswers.q19 < 3)) return;
 
             const char = data[theme];
             if (char.order === index + 1) charScores[name] += 1;
@@ -188,8 +219,8 @@ function showResults() {
     document.querySelector(".container").innerHTML = `
         <div class="question-card">
             <h2>💖 Ton match est 💖</h2>
-            <h1>${winner} 😏</h1>
-            <p>Analyse émotionnelle ultra-scientifique terminée.</p>
+            <img src="${charsImages[winner]}" alt="${winner}" class="result-image">
+            <h1>${winner}</h1>
         </div>
     `;
 
